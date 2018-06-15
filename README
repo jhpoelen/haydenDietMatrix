@@ -1,10 +1,13 @@
-Majority order were calculate by selecting the most frequently occurring order associated with a specific prey id/name.
+majorityOrders.tsv
+    Majority order were calculate by selecting the most frequently occurring order associated with a specific prey id/name.
 
-Minority order are the orders that occur that are not majority orders.
+minorityOrders.tsv
+    Minority order are the orders that occur that are not majority orders.
 
 fbPredPreyMajorityOrderCount.tsv
+    contains an estimate of diet order diversity based on GloBI
 
-has columns:
+    has columns:
     1. predator fishbase spec id
     2. predator species name
     3. number of distinct majority prey orders recorded for this predator

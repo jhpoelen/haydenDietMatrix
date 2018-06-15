@@ -5,9 +5,9 @@ Minority order are the orders that occur that are not majority orders.
 fbPredPreyMajorityOrderCount.tsv
 
 has columns:
-    1. fishbase spec id
-    2. species name
-    3. majority prey order name
+    1. predator fishbase spec id
+    2. predator species name
+    3. number of distinct majority prey orders recorded for this predator
     4. number of majority orders
 
 

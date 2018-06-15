@@ -1,0 +1,5 @@
+Majority order were calculate by selecting the most frequently occurring order associated with a specific prey id/name.
+
+Minority order are the orders that occur that are not majority orders.
+
+

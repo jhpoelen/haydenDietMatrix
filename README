@@ -2,4 +2,12 @@ Majority order were calculate by selecting the most frequently occurring order a
 
 Minority order are the orders that occur that are not majority orders.
 
+fbPredPreyMajorityOrderCount.tsv
+
+has columns:
+    1. fishbase spec id
+    2. species name
+    3. majority prey order name
+    4. number of majority orders
+
 

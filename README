@@ -13,4 +13,5 @@ fbPredPreyMajorityOrderCount.tsv
     3. number of distinct majority prey orders recorded for this predator
     4. number of majority orders
 
-
+fbPredPreyOrderPreyFrequency.tsv
+    contains a sorted frequency count of unique prey item-order pairs that occur in used intermediate fbPredPreyOrder.tsv.gz file. Used to detect suspicious prey items.

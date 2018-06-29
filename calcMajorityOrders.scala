@@ -27,7 +27,7 @@ val majorOrders = sc.broadcast(distinctMajorityOrders.collect)
 val predPreyMajorityOrders = predPreyWithPreyOrdersDs.filter(x => majorOrders.value.contains(x.order.name))
 
 val predPreyMajorityOrdersOnly = predPreyMajorityOrders.map(x => (x.pred.id, x.pred.name, x.order.name)).distinct
-val predPreyMajorityOrderCount = predPreyMajorityOrdersOnly.map(x => ((x.pred.id, x.pred.name), 1)).rdd.reduceByKey(_ + _).map(x => (x._1._1, x._1._2, x._2, majorOrders.value.flatten.length))
+val predPreyMajorityOrderCount = predPreyMajorityOrdersOnly.map(x => ((x._1, x._2), 1)).rdd.reduceByKey(_ + _).map(x => (x._1._1, x._1._2, x._2, majorOrders.value.flatten.length))
 predPreyMajorityOrdersOnly.write.option("delimiter", "\t").option("header", "false").mode(SaveMode.Overwrite).csv("fbPredPreyMajorityOrder")
 predPreyMajorityOrderCount.toDS.write.option("delimiter", "\t").option("header", "false").mode(SaveMode.Overwrite).csv("fbPredPreyMajorityOrderCount")
 

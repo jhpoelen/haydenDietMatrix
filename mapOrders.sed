@@ -1,0 +1,12 @@
+s/Anthoathecatae/Anthoathecata/g
+s/Bdelloidea/Bdelloida/g
+s/Golfingiida/Golfingiiformes/g
+s/Lucinida/Lucinoida/g
+s/Mysidacea/Mysida/g
+s/Nuculanida/Nuculida/g
+s/Nuculanoida/Nuculoida/g
+s/Nuculida/Nuculoida/g
+s/Thalassionematales/Thalassiosirales/g
+s/Thalassiophysales/Thalassiosirales/g
+s/Venerida/Veneroida/g
+s/Verongiida/Verongida/g

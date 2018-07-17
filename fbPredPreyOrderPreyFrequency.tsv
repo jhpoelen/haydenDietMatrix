@@ -7227,6 +7227,8 @@
       5 small Tellinids	Veneroida
       5 small scombrids	Perciformes
       5 small mbuna	Perciformes
+      5 Small crabs	Decapoda
+      5 small crabs	Decapoda
       5 small Cichlidae	Perciformes
       5 sludgeworms	Haplotaxida
       5 slickheads	Osmeriformes
@@ -14128,8 +14130,6 @@
       3 Solea turbynei	Pleuronectiformes
       3 Soeln capensis	Veneroida
       3 Small Cyathocotylid	Diplostomida
-      3 Small crabs	Decapoda
-      3 small crabs	Decapoda
       3 Skeletonemoideae	Thalassiosirales
       3 Skeletonema tropicum	Thalassiosirales
       3 SKELETONEMA COSTATUM 	Thalassiosirales
@@ -16044,8 +16044,6 @@
       2 Petalotricha sp.	Oligotrichida
       2 Perophora viridis	Phlebobranchia
       2 Perna viridis	Mytilida
-      2 Periphyton	Squamata
-      2 periphyton	Squamata
       2 Periglypta listeri	Veneroida
       2 Periclemenes sp. (pl)	Decapoda
       2 Periclemenes? sp.	Decapoda
@@ -16126,10 +16124,6 @@
       2 Oweniidae	Oweniida
       2 Owenia fusiformis	Oweniida
       2 Owenia collaris	Oweniida
-      2 Other suspension feeders	Squamata
-      2 Other Pisces	Squamata
-      2 Other macrophytes	Squamata
-      2 Other blue green algae	Squamata
       2 Ostorhinchus novemfasciatus	Perciformes
       2 Oscillatoria spp.	Oscillatoriales
       2 Oscillatoria spp.	Nostocales
@@ -16242,7 +16236,6 @@
       2 Natica catena	Neotaenioglossa
       2 Natica alderi	Neotaenioglossa
       2 Nassarius burchardi	Neogastropoda
-      2 n.a./others	Squamata
       2 Nannoperca vittata	Perciformes
       2 Najas pectinata	Alismatales
       2 Myxus capensis	Perciformes
@@ -16847,8 +16840,6 @@
       2 Decapterus muroadsi	Carangiformes
       2 DECAPODA	Decapoda
       2 decapoda	Decapoda
-      2 Debris	Squamata
-      2 debris	Squamata
       2 Dasycottus setiger	Perciformes
       2 Dasybranchus sp.	Capitellida
       2 Cyrtodaria siliqua	Adapedonta

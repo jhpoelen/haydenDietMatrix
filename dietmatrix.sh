@@ -9,12 +9,12 @@ set -xe
 date --iso-8601=seconds
 elton version
 nomer version
-spark-shell --version
 
 # download the dataset cache (>20GB uncompressed)
 curl -L https://zenodo.org/record/2007419/files/elton-datasets.tar.gz | tar xfz - 
 
-elton interactions | cut -f1,2,8,9,10 | sort | uniq | gzip > interactions.tsv.gz
+elton interactions | cut -f2,3,13,15,16 | pv -l | gzip > interactions_dups.tsv.gz
+zcat interactions_dups.tsv.gz | pv -l | sort | uniq > interactions.tsv.gz
 zcat interactions.tsv.gz | cut -f3 | sort | uniq > interactionLabel.tsv
 zcat interactions.tsv.gz | grep -P "(\teatenBy\t|\tpreyedUponBy\t)" | awk -F '\t' '{ print $4 "\t" $5 "\t" $1 "\t" $2 }' | gzip > interactionsPredPrey.tsv.gz 
 zcat interactions.tsv.gz | grep -P "(\teats\t|\tpreysOn\t)" | cut -f1,2,4,5 | gzip >> interactionsPredPrey.tsv.gz
@@ -27,6 +27,8 @@ zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --pro
 
 # remove likely homonyms
 zcat fbPreyPredSameAsWithOrder.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $6 "\t" $7 }' | sort | uniq | gzip > fbPreyMap.tsv.gz
+
+spark-shell --version
 
 cat removeLikelyHomonyms.scala | spark-shell
 cat fbPreyLikelyHomonyms/*.csv | sort | uniq > fbPreyLikelyHomonyms.tsv

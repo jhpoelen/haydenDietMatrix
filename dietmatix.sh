@@ -6,6 +6,7 @@
 
 set -xe 
 
+date --iso-8601=seconds
 elton version
 nomer version
 spark-shell --version

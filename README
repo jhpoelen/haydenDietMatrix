@@ -14,8 +14,11 @@ Tested on Ubuntu 18.04 .
 
 Contents:
 
+README
+    This file.
+
 dietmatix.sh
-    script used to generate data files.
+    Script used to generate data files.
 
 dietmatrix.log 
     Log of most recent run of dietmatrix.sh.
@@ -57,4 +60,4 @@ fbPredPreyMajorityOrderCount.tsv
     4. total number of majority orders
 
 fbPredPreyOrderPreyFrequency.tsv
-    contains a sorted frequency count of unique prey item-order pairs that occur in used intermediate fbPredPreyOrder.tsv.gz file. Used to detect suspicious prey items.
+    Contains a sorted frequency count of unique prey item-order pairs that occur in used intermediate fbPredPreyOrder.tsv.gz file. Used to detect suspicious prey items.

@@ -140,6 +140,7 @@ Cumacea
 Asparagales
 Thalassiosirales
 Monstrilloida
+Pteropoda
 Notostraca
 Plagiorchiida
 Cymbellales
@@ -167,7 +168,6 @@ Rhaponeidales
 Spongillida
 Ascaridida
 Gymnophiona
-Mantodea
 Gymnodiniales
 Ranunculales
 Dictyotales
@@ -193,6 +193,7 @@ Salpida
 Astigmata
 Noctilucales
 Biemnida
+""
 Spumellaria
 Mesostigmata
 Fagales
@@ -243,6 +244,7 @@ Lampriformes
 Syngnathiformes
 Tanaidacea
 Anseriformes
+Pelecypoda
 Anomalodesmata
 Nassellaria
 Characiformes
@@ -373,10 +375,12 @@ Asterinales
 Anguilliformes
 Carybdeida
 Pyrosomatida
+Clostridiales
 Zingiberales
 Dendroceratida
 Dorylaimida
 Gymnosomata
+Polystilifera
 Klebsormidiales
 Gymnotiformes
 Ischnochitonida
@@ -389,6 +393,7 @@ Corallinales
 Veneroida
 Gentianales
 Charales
+Boraginales
 Bangiales
 Lactobacillales
 Cheilostomata
@@ -458,6 +463,7 @@ Architaenioglossa
 Testudines
 Rhabditida
 Siphonophorida
+Pyrosomida
 Agelasida
 Asterales
 Spatangoida
@@ -473,6 +479,7 @@ Agaricales
 Lepisosteiformes
 Coscinodiscales
 Liliales
+Lepetellida
 Diptera
 Dendrochirotida
 Corallimorpharia
@@ -513,6 +520,7 @@ Neogastropoda
 Hadromerida
 Patellogastropoda
 Coelacanthiformes
+Siphonaptera
 Myopsida
 Acholeplasmatales
 Podocopida

@@ -8,7 +8,7 @@ elton, nomer and spark-shell v2.4+
 
 To reproduce the results, please run:
 
-bash -s <dietmatrix.sh >dietmatrix.log
+bash -s <dietmatrix.sh &>dietmatrix.log
 
 Tested on Ubuntu 18.04 .
 

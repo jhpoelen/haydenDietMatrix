@@ -48,5 +48,5 @@ cat calcMajorityOrders.scala | spark-shell
 cat majorityOrders/*.csv > majorityOrders.tsv
 cat minorityOrders/*.csv > minorityOrders.tsv
 cat fbPredPreyMajorityOrder/*.csv | sort | uniq > fbPredPreyMajorityOrder.tsv
-cat fbPredPreyMajorityOrderCount/*.csv | sort | uniq > fbPredPreyMajorityOrder.tsv
+cat fbPredPreyMajorityOrderCount/*.csv | sort | uniq > fbPredPreyMajorityOrderCount.tsv
 

@@ -3,7 +3,7 @@ import org.apache.spark.sql.SaveMode
 
 val preyMap = spark.read.option("delimiter","\t").option("header", "false").csv("fbPreyMap.tsv.gz")
 
-// get prey id,name pairs with order
+// get prey id,name pairs with rank (e.g., order, class)
 val preyMapDs = preyMap.as[(Option[String], Option[String], Option[String], Option[String])]
 
 val preyByScheme = preyMapDs.filter(_._3.isDefined).map(p => ((p._1, p._2, p._3.get.split(":").head), List((p._3, p._4))))
@@ -14,7 +14,7 @@ val preyLikelyHomonyms = preyLikelyHomonymsReduced.toDS.flatMap(p => p._2.map(h 
 
 preyLikelyHomonyms.write.option("delimiter", "\t").option("header", "false").mode(SaveMode.Overwrite).csv("fbPreyLikelyHomonyms")
 
-val predPrey = spark.read.option("delimiter","\t").option("header", "false").csv("fbPreyPredSameAsWithOrder.tsv.gz")
+val predPrey = spark.read.option("delimiter","\t").option("header", "false").csv("fbPreyPredSameAsWithRank.tsv.gz")
 
 val predPreyDs = predPrey.as[(Option[String], Option[String], Option[String], Option[String], Option[String], Option[String], Option[String], Option[String], Option[String], Option[String], Option[String])]
 
@@ -27,4 +27,4 @@ preyPredatorNoHomonyms.map{ x =>
   val v = x._2.head.get
   val k = x._1
   (v._1, v._2, k._1, k._2, v._3, v._4)
-}.toDS.write.option("delimiter", "\t").option("header", "false").mode(SaveMode.Overwrite).csv("fbPredPreySameAsWithOrderNoHomonyms")
+}.toDS.write.option("delimiter", "\t").option("header", "false").mode(SaveMode.Overwrite).csv("fbPredPreySameAsWithRankNoHomonyms")

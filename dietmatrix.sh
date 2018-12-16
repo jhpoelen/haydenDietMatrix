@@ -13,17 +13,26 @@ elton version
 nomer version
 spark-shell --version
 
-# download the dataset cache (>20GB uncompressed)
-curl -L https://zenodo.org/record/2007419/files/elton-datasets.tar.gz | tar xfz - 
+function download_interactions_archive() {
+  # download the dataset cache (>20GB uncompressed)
+  curl -L https://zenodo.org/record/2007419/files/elton-datasets.tar.gz | tar xfz - 
 
-elton interactions | cut -f2,3,13,15,16 | gzip > interactions_dups.tsv.gz
-zcat interactions_dups.tsv.gz | sort | uniq | gzip > interactions.tsv.gz
-zcat interactions.tsv.gz | cut -f3 | sort | uniq > interactionLabel.tsv
-zcat interactions.tsv.gz | grep -P "(\teatenBy\t|\tpreyedUponBy\t)" | awk -F '\t' '{ print $4 "\t" $5 "\t" $1 "\t" $2 }' | gzip > interactionsPredPrey.tsv.gz 
-zcat interactions.tsv.gz | grep -P "(\teats\t|\tpreysOn\t)" | cut -f1,2,4,5 | gzip >> interactionsPredPrey.tsv.gz
+}
 
-# resolve predator names 
-zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > interactionsPreyPred.tsv.gz
+function generate_interaction_table() {
+  elton interactions | cut -f2,3,13,15,16 | gzip > interactions_dups.tsv.gz
+  zcat interactions_dups.tsv.gz | sort | uniq | gzip > interactions.tsv.gz
+}
+
+function generate_pred_prey_table() {
+  zcat interactions.tsv.gz | cut -f3 | sort | uniq > interactionLabel.tsv
+  zcat interactions.tsv.gz | grep -P "(\teatenBy\t|\tpreyedUponBy\t)" | awk -F '\t' '{ print $4 "\t" $5 "\t" $1 "\t" $2 }' | gzip > interactionsPredPrey.tsv.gz 
+  zcat interactions.tsv.gz | grep -P "(\teats\t|\tpreysOn\t)" | cut -f1,2,4,5 | gzip >> interactionsPredPrey.tsv.gz
+}
+
+function resolve_predator_names() {
+  zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > interactionsPreyPred.tsv.gz
+}
 
 function map_prey() {
   RANK=$1
@@ -53,5 +62,9 @@ function map_prey() {
   cat fbPredPreyMajorityRankCount/*.csv | sort | uniq > fbPredPreyMajority${RANK}Count.tsv
 }
 
+download_interactions_archive
+generate_interaction_table
+generate_pred_prey_table
+resolve_predator_names
 map_prey Order
 map_prey Class

@@ -34,7 +34,7 @@ function resolve_predator_names() {
   zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > interactionsPreyPred.tsv.gz
 }
 
-function map_prey() {
+function map_prey_to_rank() {
   RANK=$1
   # map to prey rank
   zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep SAME_AS | gzip > fbPreyPredSameAsWith${RANK}.tsv.gz
@@ -66,5 +66,5 @@ download_interactions_archive
 generate_interaction_table
 generate_pred_prey_table
 resolve_predator_names
-map_prey Order
-map_prey Class
+map_prey_to_rank Order
+map_prey_to_rank Class

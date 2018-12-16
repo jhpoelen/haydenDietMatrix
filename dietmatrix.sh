@@ -25,28 +25,33 @@ zcat interactions.tsv.gz | grep -P "(\teats\t|\tpreysOn\t)" | cut -f1,2,4,5 | gz
 # resolve predator names 
 zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > interactionsPreyPred.tsv.gz
 
-# map to prey orders
-zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyOrder.properties | grep SAME_AS | gzip > fbPreyPredSameAsWithOrder.tsv.gz
-zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyOrder.properties | grep -v SAME_AS | gzip > fbPreyPredNotSameAsWithOrder.tsv.gz
+function map_prey() {
+  RANK=$1
+  # map to prey rank
+  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep SAME_AS | gzip > fbPreyPredSameAsWith${RANK}.tsv.gz
+  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep -v SAME_AS | gzip > fbPreyPredNotSameAsWith${RANK}.tsv.gz
 
-# remove likely homonyms
-zcat fbPreyPredSameAsWithOrder.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $6 "\t" $7 }' | sort | uniq | gzip > fbPreyMap.tsv.gz
+  # remove likely homonyms
+  zcat fbPreyPredSameAsWith${RANK}.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $6 "\t" $7 }' | sort | uniq | gzip > fbPreyMap.tsv.gz
 
 
-cat removeLikelyHomonyms.scala | spark-shell
-cat fbPreyLikelyHomonyms/*.csv | sort | uniq > fbPreyLikelyHomonyms.tsv
-cat fbPredPreySameAsWithOrderNoHomonyms/*.csv | grep -v -P "\t\t$" | sort | uniq | gzip > fbPredPreySameAsWithOrderNoHomonyms.tsv.gz
+  cat removeLikelyHomonyms.scala | spark-shell
+  cat fbPreyLikelyHomonyms/*.csv | sort | uniq > fbPreyLikelyHomonyms.tsv
+  cat fbPredPreySameAsWith${RANK}NoHomonyms/*.csv | grep -v -P "\t\t$" | sort | uniq | gzip > fbPredPreySameAsWith${RANK}NoHomonyms.tsv.gz
 
-zcat fbPredPreySameAsWithOrderNoHomonyms.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 }' | sort | uniq | gzip > fbPredPreyOrderUnmapped.tsv.gz
+  zcat fbPredPreySameAsWith${RANK}NoHomonyms.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 }' | sort | uniq | gzip > fbPredPrey${RANK}Unmapped.tsv.gz
 
-zcat fbPredPreyOrderUnmapped.tsv.gz | sed -f mapOrders.sed | sort | uniq | gzip > fbPredPreyOrder.tsv.gz
-zcat fbPredPreyOrder.tsv.gz | cut -f4,6 | sort | uniq -c | sort -n -r > fbPredPreyOrderPreyFrequency.tsv
+  zcat fbPredPrey${RANK}Unmapped.tsv.gz | sed -f map${RANK}.sed | sort | uniq | gzip > fbPredPreyRank.tsv.gz
+  zcat fbPredPrey${RANK}.tsv.gz | cut -f4,6 | sort | uniq -c | sort -n -r > fbPredPrey${RANK}PreyFrequency.tsv
 
-# calc majority orders
+  # calc majority orders
 
-cat calcMajorityOrders.scala | spark-shell
-cat majorityOrders/*.csv > majorityOrders.tsv
-cat minorityOrders/*.csv > minorityOrders.tsv
-cat fbPredPreyMajorityOrder/*.csv | sort | uniq > fbPredPreyMajorityOrder.tsv
-cat fbPredPreyMajorityOrderCount/*.csv | sort | uniq > fbPredPreyMajorityOrderCount.tsv
+  cat calcMajorityRank.scala | spark-shell
+  cat majorityRank/*.csv > majority${RANK}.tsv
+  cat minorityRank/*.csv > minority${RANK}.tsv
+  cat fbPredPreyMajorityRank/*.csv | sort | uniq > fbPredPreyMajority${RANK}.tsv
+  cat fbPredPreyMajorityRankCount/*.csv | sort | uniq > fbPredPreyMajority${RANK}Count.tsv
+}
 
+map_prey Order
+map_prey Class

@@ -38,19 +38,21 @@ function map_prey_to_rank() {
   RANK=$1
   # map to prey rank
   zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep SAME_AS | gzip > fbPreyPredSameAsWith${RANK}.tsv.gz
+  cp fbPreyPredSameAsWith${RANK}.tsv.gz fbPreyPredSameAsWithRank.tsv.gz
   zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep -v SAME_AS | gzip > fbPreyPredNotSameAsWith${RANK}.tsv.gz
-
+  cp fbPreyPredNotSameAsWith${RANK}.tsv.gz fbPreyPredNotSameAsWithRank.tsv.gz
   # remove likely homonyms
   zcat fbPreyPredSameAsWith${RANK}.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $6 "\t" $7 }' | sort | uniq | gzip > fbPreyMap.tsv.gz
 
 
   cat removeLikelyHomonyms.scala | spark-shell
-  cat fbPreyLikelyHomonyms/*.csv | sort | uniq > fbPreyLikelyHomonyms.tsv
-  cat fbPredPreySameAsWith${RANK}NoHomonyms/*.csv | grep -v -P "\t\t$" | sort | uniq | gzip > fbPredPreySameAsWith${RANK}NoHomonyms.tsv.gz
+  cat fbPreyLikelyHomonyms/*.csv | sort | uniq > fbPreyLikelyHomonymsWith${RANK}.tsv
+  cat fbPredPreySameAsWithRankNoHomonyms/*.csv | grep -v -P "\t\t$" | sort | uniq | gzip > fbPredPreySameAsWith${RANK}NoHomonyms.tsv.gz
 
   zcat fbPredPreySameAsWith${RANK}NoHomonyms.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 }' | sort | uniq | gzip > fbPredPrey${RANK}Unmapped.tsv.gz
 
-  zcat fbPredPrey${RANK}Unmapped.tsv.gz | sed -f map${RANK}.sed | sort | uniq | gzip > fbPredPreyRank.tsv.gz
+  zcat fbPredPrey${RANK}Unmapped.tsv.gz | sed -f map${RANK}.sed | sort | uniq | gzip > fbPredPrey${RANK}.tsv.gz
+  cp fbPredPrey${RANK}.tsv.gz fbPredPreyRank.tsv.gz
   zcat fbPredPrey${RANK}.tsv.gz | cut -f4,6 | sort | uniq -c | sort -n -r > fbPredPrey${RANK}PreyFrequency.tsv
 
   # calc majority orders

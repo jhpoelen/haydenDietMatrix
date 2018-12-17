@@ -1,1 +1,1 @@
-s/Verongiida/Verongida/g
+s/Actinopteri/Actinopterygii/g

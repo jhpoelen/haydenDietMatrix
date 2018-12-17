@@ -11,7 +11,7 @@ uname -a
 java -version
 elton version
 nomer version
-spark-shell --version
+spark-shell --version < /dev/null
 
 function download_interactions_archive() {
   # download the dataset cache (>20GB uncompressed)

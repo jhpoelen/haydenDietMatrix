@@ -58,8 +58,8 @@ function map_prey_to_rank() {
   # calc majority orders
 
   cat calcMajorityRank.scala | spark-shell
-  cat majorityRank/*.csv > majority${RANK}.tsv
-  cat minorityRank/*.csv > minority${RANK}.tsv
+  cat majorityRank/*.csv | sort | uniq > majority${RANK}.tsv
+  cat minorityRank/*.csv | sort | uniq > minority${RANK}.tsv
   cat fbPredPreyMajorityRank/*.csv | sort | uniq > fbPredPreyMajority${RANK}.tsv
   cat fbPredPreyMajorityRankCount/*.csv | sort | uniq > fbPredPreyMajority${RANK}Count.tsv
 }

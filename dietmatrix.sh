@@ -37,7 +37,7 @@ function resolve_predator_names() {
 function map_prey_to_rank() {
   RANK=$1
   # map to prey rank
-  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep SAME_AS | grep -v -P "\t$" | gzip > fbPreyPredSameAsWith${RANK}.tsv.gz
+  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep SAME_AS | grep -v -P "\t$" | grep -v -P "\t\t[a-z]+$" | gzip > fbPreyPredSameAsWith${RANK}.tsv.gz
   cp fbPreyPredSameAsWith${RANK}.tsv.gz fbPreyPredSameAsWithRank.tsv.gz
   zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep -v SAME_AS | gzip > fbPreyPredNotSameAsWith${RANK}.tsv.gz
   cp fbPreyPredNotSameAsWith${RANK}.tsv.gz fbPreyPredNotSameAsWithRank.tsv.gz

@@ -64,9 +64,14 @@ function map_prey_to_rank() {
   cat fbPredPreyMajorityRankCount/*.csv | sort | uniq > fbPredPreyMajority${RANK}Count.tsv
 }
 
+function map_prey_to_path() {
+  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyPath.properties | grep SAME_AS | gzip > fbPreyPredSameAsWithFullHierarchy.tsv.gz
+}
+
 download_interactions_archive
 generate_interaction_table
 generate_pred_prey_table
 resolve_predator_names
 map_prey_to_rank Order
 map_prey_to_rank Class
+map_prey_to_path

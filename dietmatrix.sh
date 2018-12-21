@@ -71,7 +71,7 @@ function map_prey_to_path() {
 
 function generate_diet_matrix {
   cat createDietMatrix.scala | spark-shell 
-  cat fbPredPreyTaxonomicSignature/*.csv > dietMatrix.tsv
+  cat dietMatrix/*.csv > dietMatrix.tsv
 }
 
 download_interactions_archive

@@ -31,7 +31,7 @@ function generate_pred_prey_table() {
 }
 
 function resolve_predator_names() {
-  zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > interactionsPreyPred.tsv.gz
+  zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6 | gzip > fbPredPreyHierarchy.tsv.gz
 }
 
 function map_prey_to_rank() {
@@ -65,7 +65,13 @@ function map_prey_to_rank() {
 }
 
 function map_prey_to_path() {
-  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyPath.properties | grep SAME_AS | gzip > fbPreyPredSameAsWithFullHierarchy.tsv.gz
+  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyPath.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > fbPredPreySameAsWithFullHierarchy.tsv.gz
+  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyPath.properties | grep -v SAME_AS | cut -f1,2,3,4 | gzip > fbPreyPredNotSameAsWithFullHierarchy.tsv.gz
+}
+
+function generate_diet_matrix {
+  cat createDietMatrix.scala | spark-shell 
+  cat fbPredPreyTaxonomicSignature/*.csv > dietMatrix.tsv
 }
 
 download_interactions_archive
@@ -75,3 +81,4 @@ resolve_predator_names
 map_prey_to_rank Order
 map_prey_to_rank Class
 map_prey_to_path
+generate_diet_matrix

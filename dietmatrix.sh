@@ -31,7 +31,7 @@ function generate_pred_prey_table() {
 }
 
 function resolve_predator_names() {
-  zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6 | gzip > fbPredPreyHierarchy.tsv.gz
+  zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > interactionsPreyPred.tsv.gz
 }
 
 function map_prey_to_rank() {

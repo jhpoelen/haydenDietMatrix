@@ -65,7 +65,7 @@ function map_prey_to_rank() {
 }
 
 function map_prey_to_path() {
-  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyPath.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > fbPredPreySameAsWithFullHierarchy.tsv.gz
+  zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyPath.properties | grep SAME_AS | cut -f3,4,6,7,8 | gzip > fbPredPreySameAsWithFullHierarchy.tsv.gz
   zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=preyPath.properties | grep -v SAME_AS | cut -f1,2,3,4 | gzip > fbPreyPredNotSameAsWithFullHierarchy.tsv.gz
 }
 

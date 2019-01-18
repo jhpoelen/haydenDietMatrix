@@ -2,42 +2,14 @@ import spark.implicits._
 import org.apache.spark.sql.SaveMode
 val predPrey = spark.read.option("delimiter","\t").option("header", "false").csv("fbPredPreySameAsWithFullHierarchy.tsv.gz")
 
-val predPreyDS = predPrey.as[(Option[String], Option[String], Option[String], Option[String])]
+val predPreyDS = predPrey.as[(Option[String], Option[String], Option[String], Option[String], Option[String])]
 
 val predPreyHierarchy = predPreyDS.map(x => ((x._1, x._2), x._4.getOrElse("")))
 
 case class Category(name: String, includes: List[String] = List(), excludes: List[String] = List())
 case class DietMatrix(id: Int, name: String, preyHierarchy: String)
 
-val cats = List(Category("Anthozoa"),
-Category("Cnidaria_other", includes = List("Cnidaria"), excludes = List("Anthozoa")),
-Category("Polychaeta"),	
-Category("Clitellata"),
-Category("Annelida_other", includes = List("Annelida"), excludes = List("Polychaeta", "Clitellata")),	
-Category("Polyplacophora"),	
-Category("Bivalvia"),	
-Category("Gastropoda"),	
-Category("Cephalopoda"),	
-Category("Mollusca_other", includes = List("Mollusca"), excludes = List("Clitellata", "Bivalvia", "Gastropoda", "Cephalopoda")), 
-Category("Brachiopoda"),	
-Category("Ostracoda"),	
-Category("Maxillopoda"),	
-Category("Malacostraca"),	
-Category("Insecta"),
-Category("Arthropoda_other", includes = List("Arthropoda"), excludes = List(	"Brachiopoda", "Ostracoda", "Maxillopoda", "Malacostraca", "Insecta")),
-Category("Ophiuroidea"),	
-Category("Echinoidea"),	
-Category("Holothuroidea"),	
-Category("Echinodermata_other", includes = List("Echinodermata"), excludes = List("Ophiuroidea", "Echinoidea", "Holothuroidea")),
-Category("Actinopterygii"),	
-Category("Chondrichthyes"),	
-Category("Amphibia"),	
-Category("Reptilia"),	
-Category("Aves"),	
-Category("Mammalia"),	
-Category("Chordata_other", includes = List("Chordata"), excludes = List("Actinopterygii", "Chondrichthyes", "Amphibia", "Reptilia", "Aves", "Mammalia")),
-Category("Animalia_other", includes = List("Animalia"), excludes = List("Cnidaria","Annelida","Mollusca","Arthropoda","Echinodermata","Chordata")),
-Category("Plantae"))
+val cats = List(Category("Anthozoa"), Category("Cnidaria_other", includes = List("Cnidaria"), excludes = List("Anthozoa")), Category("Polychaeta"), Category("Clitellata"), Category("Annelida_other", includes = List("Annelida"), excludes = List("Polychaeta", "Clitellata")), Category("Polyplacophora"), Category("Bivalvia"), Category("Gastropoda"), Category("Cephalopoda"), Category("Mollusca_other", includes = List("Mollusca"), excludes = List("Clitellata", "Bivalvia", "Gastropoda", "Cephalopoda")), Category("Brachiopoda"), Category("Ostracoda"), Category("Maxillopoda"), Category("Malacostraca"), Category("Insecta"), Category("Arthropoda_other", includes = List("Arthropoda"), excludes = List("Brachiopoda", "Ostracoda", "Maxillopoda", "Malacostraca", "Insecta")), Category("Ophiuroidea"), Category("Echinoidea"), Category("Holothuroidea"), Category("Echinodermata_other", includes = List("Echinodermata"), excludes = List("Ophiuroidea", "Echinoidea", "Holothuroidea")), Category("Actinopterygii"), Category("Chondrichthyes"), Category("Amphibia"), Category("Reptilia"), Category("Aves"), Category("Mammalia"), Category("Chordata_other", includes = List("Chordata"), excludes = List("Actinopterygii", "Chondrichthyes", "Amphibia", "Reptilia", "Aves", "Mammalia")), Category("Animalia_other", includes = List("Animalia"), excludes = List("Cnidaria","Annelida","Mollusca","Arthropoda","Echinodermata","Chordata")), Category("Plantae"))
 
 import org.apache.spark.sql._
 import org.apache.spark.sql.types._

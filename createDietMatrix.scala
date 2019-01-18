@@ -1,8 +1,8 @@
 import spark.implicits._
 import org.apache.spark.sql.SaveMode
-val predPrey = spark.read.option("delimiter","\t").option("header", "false").csv("fbPredPreySameAsWithPathNoHomonyms.tsv.gz")
+val predPrey = spark.read.option("delimiter","\t").option("header", "false").csv("fbPredPreySameAsWithFullHierarchy.tsv.gz")
 
-val predPreyDS = predPrey.as[(Option[String], Option[String], Option[String], Option[String], Option[String])]
+val predPreyDS = predPrey.as[(Option[String], Option[String], Option[String], Option[String])]
 
 val predPreyHierarchy = predPreyDS.map(x => ((x._1, x._2), x._4.getOrElse("")))
 

@@ -1,10 +1,12 @@
 import spark.implicits._
 import org.apache.spark.sql.SaveMode
-val predPrey = spark.read.option("delimiter","\t").option("header", "false").csv("fbPredPreySameAsWithFullHierarchy.tsv.gz")
+val predPrey = spark.read.option("delimiter","\t").option("header", "true").csv("fbPredPreySameAsWithFullHierarchy.tsv.gz")
 
-val predPreyDS = predPrey.as[(Option[String], Option[String], Option[String], Option[String], Option[String])]
+case class Pairwise(predId: String, predName: String, preyId: String, preyName: String, preyPathIds: String, preyPath: String) 
 
-val predPreyHierarchy = predPreyDS.map(x => ((x._1, x._2), x._4.getOrElse("")))
+val predPreyDS = predPrey.as[Pairwise]
+
+val predPreyHierarchy = predPreyDS.map(x => ((x.predId, x.predName), x.preyPath))
 
 case class Category(name: String, includes: List[String] = List(), excludes: List[String] = List())
 case class DietMatrix(id: Int, name: String, preyHierarchy: String)
@@ -28,7 +30,7 @@ val funcForCats: String => List[Int] = signature => {
 
 val udfForCats = udf(funcForCats) 
 
-val predPreySignature = predPreyHierarchy.map(x => DietMatrix(x._1._1.getOrElse("").replace("FBC:FB:SpecCode:","").toInt, x._1._2.getOrElse(""), x._2))
+val predPreySignature = predPreyHierarchy.map(x => DietMatrix(x._1._1.replace("FBC:FB:SpecCode:","").toInt, x._1._2, x._2))
 
 val dietMatrix = predPreySignature.withColumn("dietCategories", udfForCats($"preyHierarchy"))
 

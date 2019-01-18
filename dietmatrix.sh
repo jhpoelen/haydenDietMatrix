@@ -74,11 +74,11 @@ function generate_diet_matrix {
   cat dietMatrix/*.csv > dietMatrix.tsv
 }
 
-#download_interactions_archive
-#generate_interaction_table
-#generate_pred_prey_table
-#resolve_predator_names
-#map_prey_to_rank Order
-#map_prey_to_rank Class
-#map_prey_to_path
+download_interactions_archive
+generate_interaction_table
+generate_pred_prey_table
+resolve_predator_names
+map_prey_to_rank Order
+map_prey_to_rank Class
+map_prey_to_path
 generate_diet_matrix

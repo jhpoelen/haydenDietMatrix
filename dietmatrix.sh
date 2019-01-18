@@ -34,7 +34,7 @@ function resolve_predator_names() {
   zcat interactionsPredPrey.tsv.gz | nomer append --properties=predator.properties | grep SAME_AS | cut -f3,4,6,7 | gzip > interactionsPreyPred.tsv.gz
 }
 
-function map_prey_to_rank() {
+function resolve_prey_no_homonyms() {
   RANK=$1
   # map to prey rank
   zcat interactionsPreyPred.tsv.gz | grep -P ".*\t.*\tFBC:FB" | nomer append --properties=prey${RANK}.properties | grep SAME_AS | grep -v -P "\t$" | grep -v -P "\t\t[a-z]+$" | gzip > fbPreyPredSameAsWith${RANK}.tsv.gz
@@ -44,10 +44,14 @@ function map_prey_to_rank() {
   # remove likely homonyms
   zcat fbPreyPredSameAsWith${RANK}.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $6 "\t" $7 }' | sort | uniq | gzip > fbPreyMap.tsv.gz
 
-
   cat removeLikelyHomonyms.scala | spark-shell
   cat fbPreyLikelyHomonyms/*.csv | sort | uniq > fbPreyLikelyHomonymsWith${RANK}.tsv
   cat fbPredPreySameAsWithRankNoHomonyms/*.csv | grep -v -P "\t\t$" | sort | uniq | gzip > fbPredPreySameAsWith${RANK}NoHomonyms.tsv.gz
+}
+
+function map_prey_to_rank() {
+  RANK=$1
+  resolve_prey_no_homonyms $RANK
 
   zcat fbPredPreySameAsWith${RANK}NoHomonyms.tsv.gz | awk -F '\t' '{ print $1 "\t" $2 "\t" $3 "\t" $4 "\t" $5 "\t" $6 }' | sort | uniq | gzip > fbPredPrey${RANK}Unmapped.tsv.gz
 
@@ -70,6 +74,7 @@ function map_prey_to_path() {
 }
 
 function generate_diet_matrix {
+  resolve_prey_no_homonyms Path
   cat createDietMatrix.scala | spark-shell 
   cat dietMatrix/*.csv > dietMatrix.tsv
 }
@@ -78,7 +83,10 @@ download_interactions_archive
 generate_interaction_table
 generate_pred_prey_table
 resolve_predator_names
+
 map_prey_to_rank Order
 map_prey_to_rank Class
+
 map_prey_to_path
+
 generate_diet_matrix

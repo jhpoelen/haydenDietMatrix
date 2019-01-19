@@ -6,7 +6,12 @@ case class Pairwise(predId: String, predName: String, preyId: String, preyName: 
 
 val predPreyDS = predPrey.as[Pairwise]
 
-val predPreyHierarchy = predPreyDS.map(x => ((x.predId, x.predName), x.preyPath))
+val preyUnique = predPreyDS.map(x => (x.preyName, List(x.preyId))).distinct
+
+val ambiguousPreyIds = preyUnique.rdd.reduceByKey(_ ::: _).map(y => (y._1, y._2.map(x => (x.split(":").head, x)).groupBy(_._1).map( _._2.map(_._2)).filter(_.length > 1).flatten.toList)).filter(_._2.length > 1).flatMap(_._2).collect.toList
+
+
+val predPreyHierarchy = predPreyDS.filter(x => !ambiguousPreyIds.contains(x.preyId)).map(x => ((x.predId, x.predName), x.preyPath))
 
 case class Category(name: String, includes: List[String] = List(), excludes: List[String] = List())
 case class DietMatrix(id: Int, name: String, preyHierarchy: String)
